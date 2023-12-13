@@ -4,8 +4,7 @@
     console.log("Your choice " + playerSelection);
     console.log("Computer's choice " + computerSelection);
     if(playerSelection === computerSelection){
-        console.log("You both are tied");
-        playRound(getPlayerSelection(),getComputerChoice());
+        return "You both are tied";
     }else if(playerSelection === "Rock" && computerSelection === "Paper"){
         return "You Lose! Paper beats Rock";
     }else if(playerSelection === "Rock" && computerSelection === "Scissors"){
@@ -21,8 +20,7 @@
     }
   }
   
-  function getPlayerSelection(){
-    const message = prompt("Your choice?");
+  function getPlayerSelection(message){
     return message.slice(0,1).toUpperCase() + message.slice(1).toLowerCase();
   }
 
@@ -37,9 +35,21 @@
     }
   }
 
-  for(let i = 0; i < 5; i++){
-    console.log(playRound(getPlayerSelection(),getComputerChoice()));
-  }
+let container = document.querySelector('.container');
 
+container.addEventListener('click', (event) => {
+    let target = event.target;
 
+    switch(target.id){
+        case 'Rock':
+            console.log(playRound(getComputerChoice(target.id), getComputerChoice()));
+            break;
+        case 'Paper':
+            console.log(playRound(getComputerChoice(target.id), getComputerChoice()));
+            break;
+        case 'Scissors':
+            console.log(playRound(getComputerChoice(target.id), getComputerChoice()));
+            break;
+    }
+});
 
