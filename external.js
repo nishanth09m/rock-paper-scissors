@@ -1,55 +1,54 @@
+let playerScore = 0;
+let computerScore = 0;
+let buttons = document.querySelectorAll('input');
 
-  function playRound(playerSelection, computerSelection) {
+
+function computerPlay() {
+    let choices = ['Rock', 'Paper', 'Scissors']
+    return choices[Math.floor(Math.random() * choices.length)]
+}
+
+function disableButtons() {
+    buttons.forEach(elem => {
+        elem.disabled = true
+    })
+}
+
+function playRound(playerSelection) {
+    let computerSelection = computerPlay()
+    let result = ""
+
     // your code here!
-    console.log("Your choice " + playerSelection);
-    console.log("Computer's choice " + computerSelection);
-    if(playerSelection === computerSelection){
-        return "You both are tied";
-    }else if(playerSelection === "Rock" && computerSelection === "Paper"){
-        return "You Lose! Paper beats Rock";
-    }else if(playerSelection === "Rock" && computerSelection === "Scissors"){
-        return "You Win! Rock beats Scissors"
-    }else if(playerSelection === "Paper" && computerSelection === "Scissors"){
-        return "You Lose! Scissors beats Paper";
-    }else if(playerSelection === "Paper" && computerSelection === "Rock"){
-        return "You Win! Paper beats Rock";
-    }else if(playerSelection === "Scissors" && computerSelection === "Rock"){
-        return "You Lose! Rock beats Scissors";
+    if(playerSelection == computerSelection){
+        result = "Your Score: " + playerScore + "<br>Computer's Score: " + computerScore + "<br><br>You both are tied";
+
+    }else if((playerSelection == "Rock" && computerSelection == "Paper") || 
+                (playerSelection == "Paper" && computerSelection == "Scissors") ||
+                (playerSelection == "Scissors" && computerSelection == "Rock")
+                ){
+        computerScore++;
+        result = "Your Score: " + playerScore + "<br>Computer's Score: " + computerScore + "<br><br> You Lose! " + computerSelection + " beats " +  playerSelection;
+        if(computerScore == 5){
+            result += "<br><br>You lost the game! Reload to play again."
+            disableButtons();
+        }
     }else{
-        return "You Win! Scissors beats Paper";
+        playerScore++;
+        result =  "Your Score: " + playerScore + "<br>Computer's Score: " + computerScore + "<br><br> You Win! " + playerSelection + " beats " +  computerSelection;
+        if(playerScore == 5){
+            result += "<br><br> You won the game! Reload to play again."
+            disableButtons();
+        }
     }
+
+    document.getElementById('result').innerHTML = result
+    return 
   }
   
-  function getPlayerSelection(message){
-    return message.slice(0,1).toUpperCase() + message.slice(1).toLowerCase();
-  }
 
-  function getComputerChoice(){
-    const random = Math.floor(Math.random() * 3);
-    if(random === 0){
-        return "Rock";
-    }else if(random === 1){
-        return "Paper";
-    }else{
-        return "Scissors";
-    }
-  }
-
-let container = document.querySelector('.container');
-
-container.addEventListener('click', (event) => {
-    let target = event.target;
-
-    switch(target.id){
-        case 'Rock':
-            console.log(playRound(getComputerChoice(target.id), getComputerChoice()));
-            break;
-        case 'Paper':
-            console.log(playRound(getComputerChoice(target.id), getComputerChoice()));
-            break;
-        case 'Scissors':
-            console.log(playRound(getComputerChoice(target.id), getComputerChoice()));
-            break;
-    }
+buttons.forEach(button =>{
+    button.addEventListener('click', () =>{
+    playRound(button.value);
+    })
 });
 
